@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class torneosDao {
     // lamada a la clase conexion, para iniciar la base de datos como objeto.
-    private final String tabla = "partidos";
-    private final String id_tabla = "id_partido";
+    private final String tabla = "torneos";
+    private final String id_tabla = "id_torneo";
     private conexion con;
 
     public torneosDao(conexion con) {

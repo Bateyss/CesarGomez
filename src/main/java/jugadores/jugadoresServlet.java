@@ -80,9 +80,13 @@ public class jugadoresServlet extends HttpServlet {
             // se ejecutan las acciones requeridas a los dao
             List<nacionalidadesBean> nac = nd.consultar(nb);
             // se recogen las respuestas
+            bean = new jugadoresBean(0);
+            dao = new jugadoresDao(con);
+            List<jugadoresBean> lista = dao.consultar(bean);
+            request.setAttribute("lista", lista);
             request.setAttribute("nacionalidades", nac);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/insertar.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | ServletException e) {
@@ -92,7 +96,7 @@ public class jugadoresServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -125,22 +129,11 @@ public class jugadoresServlet extends HttpServlet {
             } else {
                 msg = "Error al Guardar";
             }
-            // se inician los bean
-            nb = new nacionalidadesBean(0);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            nd = new nacionalidadesDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<nacionalidadesBean> nac = nd.consultar(nb);
-            // se recogen las respuestas
-            request.setAttribute("nacionalidades", nac);
+            
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/insertar.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -148,7 +141,7 @@ public class jugadoresServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -181,22 +174,11 @@ public class jugadoresServlet extends HttpServlet {
             } else {
                 msg = "Error al Actualizar";
             }
-            // se inician los bean
-            nb = new nacionalidadesBean(0);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            nd = new nacionalidadesDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<nacionalidadesBean> nac = nd.consultar(nb);
-            // se recogen las respuestas
-            request.setAttribute("nacionalidades", nac);
+            
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/actualizar.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -204,7 +186,7 @@ public class jugadoresServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -214,17 +196,21 @@ public class jugadoresServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             // se inician los bean
-            bean = new jugadoresBean(0);
+            nb = new nacionalidadesBean(0);
             // se inicia la conexion a la base de datos
             con = new conexion();
             // se inician los dao
-            dao = new jugadoresDao(con);
+            nd = new nacionalidadesDao(con);
             // se ejecutan las acciones requeridas a los dao
-            List<jugadoresBean> lista = dao.consultar(bean);
+            List<nacionalidadesBean> nac = nd.consultar(nb);
             // se recogen las respuestas
+            bean = new jugadoresBean(0);
+            dao = new jugadoresDao(con);
+            List<jugadoresBean> lista = dao.consultar(bean);
             request.setAttribute("lista", lista);
+            request.setAttribute("nacionalidades", nac);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | ServletException e) {
@@ -234,7 +220,7 @@ public class jugadoresServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -268,7 +254,7 @@ public class jugadoresServlet extends HttpServlet {
             // se recogen las respuestas
             request.setAttribute("lista", lista);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/actualizar.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
@@ -278,7 +264,7 @@ public class jugadoresServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -305,16 +291,11 @@ public class jugadoresServlet extends HttpServlet {
             } else {
                 msg = "Error al Eliminar";
             }
-            // se ejecutan las acciones requeridas a los dao
-            List<jugadoresBean> lista = dao.consultar(bean);
-            // se recogen las respuestas
-            request.setAttribute("lista", lista);
+            
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -322,7 +303,7 @@ public class jugadoresServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }

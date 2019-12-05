@@ -80,9 +80,13 @@ public class premiosServlet extends HttpServlet {
             // se ejecutan las acciones requeridas a los dao
             List<fasesBean> fac = fd.consultar(fb);
             // se recogen las respuestas
+            bean = new premiosBean(0);
+            dao = new premiosDao(con);
+            List<premiosBean> lista = dao.consultar(bean);
+            request.setAttribute("lista", lista);
             request.setAttribute("fases", fac);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/insertar.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | ServletException e) {
@@ -92,7 +96,7 @@ public class premiosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -127,22 +131,11 @@ public class premiosServlet extends HttpServlet {
             } else {
                 msg = "Error al Guardar";
             }
-             // se inician los bean
-            fb = new fasesBean(0);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            fd = new fasesDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<fasesBean> fac = fd.consultar(fb);
-            // se recogen las respuestas
-            request.setAttribute("fases", fac);
+            
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/insertar.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -150,7 +143,7 @@ public class premiosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -185,22 +178,11 @@ public class premiosServlet extends HttpServlet {
             } else {
                 msg = "Error al Actualizar";
             }
-            // se inician los bean
-            fb = new fasesBean(0);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            fd = new fasesDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<fasesBean> fac = fd.consultar(fb);
-            // se recogen las respuestas
-            request.setAttribute("fases", fac);
+            
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/actualizar.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -208,7 +190,7 @@ public class premiosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -218,17 +200,21 @@ public class premiosServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             // se inician los bean
-            bean = new premiosBean(0);
+            fb = new fasesBean(0);
             // se inicia la conexion a la base de datos
             con = new conexion();
             // se inician los dao
-            dao = new premiosDao(con);
+            fd = new fasesDao(con);
             // se ejecutan las acciones requeridas a los dao
-            List<premiosBean> lista = dao.consultar(bean);
+            List<fasesBean> fac = fd.consultar(fb);
             // se recogen las respuestas
+            bean = new premiosBean(0);
+            dao = new premiosDao(con);
+            List<premiosBean> lista = dao.consultar(bean);
             request.setAttribute("lista", lista);
+            request.setAttribute("fases", fac);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | ServletException e) {
@@ -238,7 +224,7 @@ public class premiosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -272,7 +258,7 @@ public class premiosServlet extends HttpServlet {
             // se recogen las respuestas
             request.setAttribute("lista", lista);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/actualizar.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
@@ -282,7 +268,7 @@ public class premiosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -309,16 +295,11 @@ public class premiosServlet extends HttpServlet {
             } else {
                 msg = "Error al Eliminar";
             }
-            // se ejecutan las acciones requeridas a los dao
-            List<premiosBean> lista = dao.consultar(bean);
-            // se recogen las respuestas
-            request.setAttribute("lista", lista);
+            
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -326,7 +307,7 @@ public class premiosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }

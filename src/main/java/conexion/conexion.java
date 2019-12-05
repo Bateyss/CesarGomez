@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class conexion {
     // atributos de inicio de la base de datos
     Connection con;
-    private final String bd = "torneo_js";
+    private final String bd = "torneo_gs";
     private final String user = "root";
     private final String pass = "root";
     private final String driver = "com.mysql.jdbc.Driver";

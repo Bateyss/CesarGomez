@@ -44,6 +44,18 @@
         <servlet-name>premiosServlet</servlet-name>
         <servlet-class>premios.premiosServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sesionesServlet</servlet-name>
+        <servlet-class>sesiones.sesionesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>torneosServlet</servlet-name>
+        <servlet-class>torneos.torneosServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>usuariosServlet</servlet-name>
+        <servlet-class>login.usuariosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>arbitrosServlet</servlet-name>
         <url-pattern>/arbitros</url-pattern>
@@ -87,6 +99,18 @@
     <servlet-mapping>
         <servlet-name>premiosServlet</servlet-name>
         <url-pattern>/premios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sesionesServlet</servlet-name>
+        <url-pattern>/sesiones</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>torneosServlet</servlet-name>
+        <url-pattern>/torneos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>usuariosServlet</servlet-name>
+        <url-pattern>/usuarios</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -104,13 +104,17 @@ public class partidosServlet extends HttpServlet {
             List<arbitrosBean> arb = ad.consultar(ab);
             List<jugadoresBean> jug = jd.consultar(jb);
             // se recogen las respuestas
+            bean = new partidosBean(0);
+            dao = new partidosDao(con);
+            List<partidosBean> lista = dao.consultar(bean);
+            request.setAttribute("lista", lista);
             request.setAttribute("sesiones", ses);
             request.setAttribute("modalidades", mod);
             request.setAttribute("fases", fas);
             request.setAttribute("arbitros", arb);
             request.setAttribute("jugadores", jug);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/insertar.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | ServletException e) {
@@ -120,7 +124,7 @@ public class partidosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -161,38 +165,11 @@ public class partidosServlet extends HttpServlet {
             } else {
                 msg = "Error al Guardar";
             }
-            // se inician los bean
-            sb = new sesionesBean(0);
-            mb = new modalidadesBean(0);
-            fb = new fasesBean(0);
-            ab = new arbitrosBean(0);
-            jb = new jugadoresBean(0);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            sd = new sesionesDao(con);
-            md = new modalidadesDao(con);
-            fd = new fasesDao(con);
-            ad = new arbitrosDao(con);
-            jd = new jugadoresDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<sesionesBean> ses = sd.consultar(sb);
-            List<modalidadesBean> mod = md.consultar(mb);
-            List<fasesBean> fas = fd.consultar(fb);
-            List<arbitrosBean> arb = ad.consultar(ab);
-            List<jugadoresBean> jug = jd.consultar(jb);
-            // se recogen las respuestas
-            request.setAttribute("sesiones", ses);
-            request.setAttribute("modalidades", mod);
-            request.setAttribute("fases", fas);
-            request.setAttribute("arbitros", arb);
-            request.setAttribute("jugadores", jug);
+            
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/insertar.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -200,7 +177,7 @@ public class partidosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -241,6 +218,27 @@ public class partidosServlet extends HttpServlet {
             } else {
                 msg = "Error al Actualizar";
             }
+            
+            // se recogen las respuestas
+            request.setAttribute("msg", msg);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
+        } catch (IOException | NumberFormatException | ServletException e) {
+            // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
+            error = e.getMessage();
+            msg = "Ocurrio un error con la base de datos al actualizar " + carpeta;
+            request.setAttribute("msg", msg);
+            request.setAttribute("error", error);
+            // se llama a la direccion o accion de resputesta
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
+            // se envian los datos de respuesta.
+            rd.forward(request, response);
+        }
+    }
+
+    protected void consultar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
             // se inician los bean
             sb = new sesionesBean(0);
             mb = new modalidadesBean(0);
@@ -262,45 +260,17 @@ public class partidosServlet extends HttpServlet {
             List<arbitrosBean> arb = ad.consultar(ab);
             List<jugadoresBean> jug = jd.consultar(jb);
             // se recogen las respuestas
+            bean = new partidosBean(0);
+            dao = new partidosDao(con);
+            List<partidosBean> lista = dao.consultar(bean);
+            request.setAttribute("lista", lista);
             request.setAttribute("sesiones", ses);
             request.setAttribute("modalidades", mod);
             request.setAttribute("fases", fas);
             request.setAttribute("arbitros", arb);
             request.setAttribute("jugadores", jug);
-            // se recogen las respuestas
-            request.setAttribute("msg", msg);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/actualizar.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
-        } catch (IOException | NumberFormatException | ServletException e) {
-            // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
-            error = e.getMessage();
-            msg = "Ocurrio un error con la base de datos al actualizar " + carpeta;
-            request.setAttribute("msg", msg);
-            request.setAttribute("error", error);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
-        }
-    }
-
-    protected void consultar(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            // se inician los bean
-            bean = new partidosBean(0);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            dao = new partidosDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<partidosBean> lista = dao.consultar(bean);
-            // se recogen las respuestas
-            request.setAttribute("lista", lista);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | ServletException e) {
@@ -310,7 +280,7 @@ public class partidosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -360,7 +330,7 @@ public class partidosServlet extends HttpServlet {
             // se recogen las respuestas
             request.setAttribute("lista", lista);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/actualizar.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
@@ -370,7 +340,7 @@ public class partidosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -397,16 +367,11 @@ public class partidosServlet extends HttpServlet {
             } else {
                 msg = "Error al Eliminar";
             }
-            // se ejecutan las acciones requeridas a los dao
-            List<partidosBean> lista = dao.consultar(bean);
-            // se recogen las respuestas
-            request.setAttribute("lista", lista);
+            
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -414,7 +379,7 @@ public class partidosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }

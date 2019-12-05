@@ -47,9 +47,6 @@ public class arbitrosServlet extends HttpServlet {
             case "consular":
                 consultar(request, response);
                 break;
-            case "consularId":
-                consultarId(request, response);
-                break;
             case "eliminar":
                 eliminar(request, response);
                 break;
@@ -87,7 +84,7 @@ public class arbitrosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -118,22 +115,9 @@ public class arbitrosServlet extends HttpServlet {
             } else {
                 msg = "Error al Guardar";
             }
-            // se inician los bean
-            nb = new nacionalidadesBean(0);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            nd = new nacionalidadesDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<nacionalidadesBean> nac = nd.consultar(nb);
-            // se recogen las respuestas
-            request.setAttribute("nacionalidades", nac);
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/insertar.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -141,7 +125,7 @@ public class arbitrosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -172,22 +156,11 @@ public class arbitrosServlet extends HttpServlet {
             } else {
                 msg = "Error al Actualizar";
             }
-            // se inician los bean
-            nb = new nacionalidadesBean(0);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            nd = new nacionalidadesDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<nacionalidadesBean> nac = nd.consultar(nb);
-            // se recogen las respuestas
-            request.setAttribute("nacionalidades", nac);
+
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/actualizar.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -195,7 +168,7 @@ public class arbitrosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -212,40 +185,6 @@ public class arbitrosServlet extends HttpServlet {
             dao = new arbitrosDao(con);
             // se ejecutan las acciones requeridas a los dao
             List<arbitrosBean> lista = dao.consultar(bean);
-            // se recogen las respuestas
-            request.setAttribute("lista", lista);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
-        } catch (IOException | ServletException e) {
-            // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
-            error = e.getMessage();
-            msg = "Ocurrio un error con la base de datos al consultar " + carpeta;
-            request.setAttribute("msg", msg);
-            request.setAttribute("error", error);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
-        }
-    }
-
-    protected void consultarId(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            // variables de recoleccion de datos del jsp
-            id = Integer.parseInt(request.getParameter(id_tabla));
-            // se inician los bean
-            bean = new arbitrosBean(0);
-            // se introducen los datos almacenados desde jsp a los bean
-            bean.setId_arbitro(id);
-            // se inicia la conexion a la base de datos
-            con = new conexion();
-            // se inician los dao
-            dao = new arbitrosDao(con);
-            // se ejecutan las acciones requeridas a los dao
-            List<arbitrosBean> lista = dao.consultarId(bean);
             // se inician los bean
             nb = new nacionalidadesBean(0);
             // se inicia la conexion a la base de datos
@@ -259,17 +198,17 @@ public class arbitrosServlet extends HttpServlet {
             // se recogen las respuestas
             request.setAttribute("lista", lista);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/actualizar.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
-        } catch (IOException | NumberFormatException | ServletException e) {
+        } catch (IOException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
-            msg = "Ocurrio un error con la base de datos al consultar ID " + carpeta;
+            msg = "Ocurrio un error con la base de datos al consultar " + carpeta;
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
@@ -296,16 +235,10 @@ public class arbitrosServlet extends HttpServlet {
             } else {
                 msg = "Error al Eliminar";
             }
-            // se ejecutan las acciones requeridas a los dao
-            List<arbitrosBean> lista = dao.consultar(bean);
-            // se recogen las respuestas
-            request.setAttribute("lista", lista);
             // se recogen las respuestas
             request.setAttribute("msg", msg);
-            // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
-            // se envian los datos de respuesta.
-            rd.forward(request, response);
+            // se envia la respuesta y se consulta la tabla
+            consultar(request, response);
         } catch (IOException | NumberFormatException | ServletException e) {
             // en caso de error, se mostraria el error en la vista, relacionando a la base de datos
             error = e.getMessage();
@@ -313,7 +246,7 @@ public class arbitrosServlet extends HttpServlet {
             request.setAttribute("msg", msg);
             request.setAttribute("error", error);
             // se llama a la direccion o accion de resputesta
-            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo.jsp");
+            rd = request.getRequestDispatcher("/" + carpeta + "/catalogo-admin.jsp");
             // se envian los datos de respuesta.
             rd.forward(request, response);
         }
